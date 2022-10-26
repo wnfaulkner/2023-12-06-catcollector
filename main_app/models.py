@@ -7,4 +7,10 @@ class Cat(models.Model):
   description = models.TextField(max_length=250)
   age = models.IntegerField()
 
+  # Changing this instance method
+  # does not impact the database, therefore
+  # no makemigrations is necessary
+  def __str__(self):
+    return f'{self.name} ({self.id})'
+
 
