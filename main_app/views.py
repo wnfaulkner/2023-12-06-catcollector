@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cat
 from .forms import FeedingForm
@@ -35,3 +35,18 @@ class CatUpdate(UpdateView):
 class CatDelete(DeleteView):
   model = Cat
   success_url = '/cats'
+
+def add_feeding(request, cat_id):
+  # create a ModelForm instance using 
+  # the data that was submitted in the form
+  form = FeedingForm(request.POST)
+  # validate the form
+  if form.is_valid():
+    # We want a model instance, but
+    # we can't save to the db yet
+    # because we have not assigned the
+    # cat_id FK.
+    new_feeding = form.save(commit=False)
+    new_feeding.cat_id = cat_id
+    new_feeding.save()
+  return redirect('detail', cat_id=cat_id)

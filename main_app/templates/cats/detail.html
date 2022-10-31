@@ -24,7 +24,7 @@
   </div>
   <!-- New Markup Below -->
   <div class="col s6">
-    <form method="POST">
+    <form action="{% url 'add_feeding' cat.id %}" method="POST">
       {% csrf_token %}
       <!-- Render the inputs -->
       {{ feeding_form.as_p }}
@@ -46,4 +46,17 @@
   </div>
   <!-- New Markup Above -->
 </div>
+
+<script>
+  const dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  const selectEl = document.getElementById('id_meal');
+  M.FormSelect.init(selectEl);
+</script>
 {% endblock %}
