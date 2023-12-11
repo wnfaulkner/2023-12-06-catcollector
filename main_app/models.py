@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 from datetime import date
 
 MEALS = (
@@ -8,8 +9,12 @@ MEALS = (
   ('D', 'Dinner'),
 )
 
-
 # Create your models here.
+
+# class Profile(models.Model): #creating a new 1-to-1 model with user so can add additional details to the user. More info: https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#extending-the-existing-user-model
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     favorite_color = models.CharField(max_length=50)
+
 class Toy(models.Model):
   name = models.CharField(max_length=50)
   color = models.CharField(max_length=20)
@@ -27,6 +32,7 @@ class Cat(models.Model):
   description = models.TextField(max_length=250)
   age = models.IntegerField()
   toys = models.ManyToManyField(Toy)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
 
   # Changing this instance method  does not impact the database, therefore no makemigrations is necessary
   def __str__(self):
